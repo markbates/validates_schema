@@ -32,7 +32,7 @@ class ActiveRecord::Base
               return if abstract_class
               begin
                 add_schema_based_validations(self)
-              rescue ActiveRecord::StatementInvalid => e
+              rescue Exception => e
                 # apparently it just doesn't want to work,
                 # so forget about it!
                 # puts "e.message: #{e.message}"
