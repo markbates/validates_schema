@@ -17,7 +17,7 @@ Bundler.require
 Gemstub.test_framework = :rspec
 
 Gemstub.gem_spec do |s|
-  s.version = '1.0.0'
+  s.version = '1.1.0'
   s.rubyforge_project = 'validates_schema'
   s.add_dependency('activerecord', '>= 3.0.0')
   s.email = 'mark@markbates.com'

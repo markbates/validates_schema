@@ -20,5 +20,9 @@ ActiveRecord::Schema.define do
     t.decimal :salary, :null => false, :precision => 2, :scale => 8
     t.timestamps
   end
+  
+  create_table :artists, :force => true do |t|
+    t.timestamps
+  end
 
 end
