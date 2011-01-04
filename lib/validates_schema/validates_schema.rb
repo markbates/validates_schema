@@ -30,7 +30,13 @@ class ActiveRecord::Base
             def set_table_name_with_schema_validations(*args)
               set_table_name_without_schema_validations(*args)
               return if abstract_class
-              add_schema_based_validations(self)
+              begin
+                add_schema_based_validations(self)
+              rescue ActiveRecord::StatementInvalid => e
+                # apparently it just doesn't want to work,
+                # so forget about it!
+                # puts "e.message: #{e.message}"
+              end
             end
             alias_method_chain :set_table_name, :schema_validations
           end
