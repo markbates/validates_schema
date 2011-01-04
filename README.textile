@@ -1,0 +1,61 @@
+h1. Validates Schema
+
+Add a few validations for ActiveRecord objects (ActiveRecord 3.0+) based off of the schema for each table.
+
+h2. Installation
+
+Add the following to your <code>Gemfile</code>:
+
+<pre><code>
+  gem 'validates_schema'
+</code></pre>
+
+Then install the gem:
+
+<pre><code>
+  $ bundle install
+</code></pre>
+
+That's it! There is nothing else you need to do to get validations on your ActiveRecord models. When each of your models inherits ActiveRecord::Base it will automatically look up the schema for that model and generate the appropriate validations based on the schema.
+
+h2. Examples
+
+The following schema:
+
+<pre><code>
+  ActiveRecord::Schema.define do
+
+    create_table :users, :force => true do |t|
+      t.string :name, :limit => 200
+      t.string :email
+      t.string :password, :null => false
+      t.string :url, :limit => 128, :null => false
+      t.integer :age
+      t.integer :pin, :limit => 8, :null => false
+      t.float :salt
+      t.text :bio
+      t.text :summary, :null => false
+      t.boolean :alive, :null => false
+      t.decimal :salary, :null => false, :precision => 2, :scale => 8
+      t.timestamps
+    end
+
+  end
+</code></pre>
+
+will generate the following validations:
+
+<pre><code>
+  class User < ActiveRecord::Base
+    validates :name,      :length => {:maximum => 200}
+    validates :email,     :length => {:maximum => 255}
+    validates :password,  :length => {:maximum => 255}, :presence => true
+    validates :url,       :length => {:maximum => 128}, :presence => true
+    validates :age,       :numericality => {:only_integer => true}
+    validates :pin,       :numericality => {:only_integer => true}, :presence=>true
+    validates :salt,      :numericality => true
+    validates :summary,   :presence => true
+    validates :alive,     :presence => true
+    validates :salary,    :numericality => true, :presence => true
+  end
+</code></pre>
